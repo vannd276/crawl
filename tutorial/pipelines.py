@@ -18,10 +18,19 @@ class TutorialPipeline(object):
         _connection = _engine.connect()
         _metadata = MetaData()
         _dtv_items = Table("categories", _metadata,
-                             Column("id", Integer, primary_key=True),
-                             Column("url", Text),
-                             Column("title", Text))
-        _metadata.create_all(_engine)
+                           Column("id", Integer, primary_key=True),
+                           Column("dich_azw3", Text),
+                           Column("dich_epub", Text),
+                           Column("dich_mobi", Text),
+                           Column("dich_pdf", Text),
+                           Column("cv_azw3", Text),
+                           Column("cv_epub", Text),
+                           Column("cv_mobi", Text),
+                           Column("cv_pdf", Text),
+                           Column("name", Text),
+                           Column("author", Text),
+                           Column("category", Text),
+                           _metadata.create_all(_engine))
         self.connection = _connection
         self._dtv_items = _dtv_items
 
@@ -33,7 +42,7 @@ class TutorialPipeline(object):
                 raise TutorialItem("Missing %s!" % data)
         if is_valid:
             ins_query = self._dtv_items.insert().values(
-                url=item["url"], title=item["title"])
+                dich_azw3=item["dich_azw3"], dich_epub=item["dich_epub"],dich_mobi=item["dich_mobi"], dich_pdf=item["dich_pdf"], cv_azw3=item["cv_azw3"], cv_epub=item["cv_epub"],cv_mobi=item["cv_mobi"], cv_pdf=item["cv_pdf"],name=item["name"], author=item["author"], category=item["category"])
             self.connection.execute(ins_query)
         return item
 
